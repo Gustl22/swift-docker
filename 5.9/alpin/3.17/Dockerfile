@@ -33,7 +33,7 @@ RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_V
 
 RUN git clone https://github.com/apple/swift.git swift
 RUN cd swift && utils/update-checkout --clone
-RUN cd swift && utils/update-checkout --tag $SWIFT_VERSION
+#RUN cd swift && utils/update-checkout --tag $SWIFT_VERSION
 
 #RUN export PATH="/usr/glibc-compat/bin:${PATH}"
 #RUN apk --no-cache add libgcc
