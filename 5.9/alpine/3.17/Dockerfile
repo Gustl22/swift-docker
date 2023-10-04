@@ -32,8 +32,7 @@ RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_V
     apk --no-cache --force-overwrite add glibc-bin-$GLIBC_VERSION.apk && rm glibc-bin-$GLIBC_VERSION.apk
 
 RUN git clone https://github.com/Gustl22/swift.git swift
-RUN git checkout "origin/maxd/alpine-build-runtime"
-RUN cd swift && utils/update-checkout --clone
+RUN cd swift && utils/update-checkout --scheme "maxd/alpine-build-runtime" --clone
 #RUN cd swift && utils/update-checkout --tag $SWIFT_VERSION
 
 #RUN export PATH="/usr/glibc-compat/bin:${PATH}"
@@ -41,7 +40,8 @@ RUN cd swift && utils/update-checkout --clone
 
 # install on linux:
 #RUN LDFLAGS="-Xlinker -z -Xlinker nostart-stop-gc" CC=/usr/bin/clang CXX=/usr/bin/clang++ ./swift/utils/build-script --release-debuginfo --sccache --llvm-max-parallel-lto-link-jobs 1 --llvm-cmake-options='-DLLVM_ENABLE_LLD=' --extra-cmake-options="-DSWIFT_USE_LINKER= -DLLVM_USE_LINKER=/home/ksmiley/.bin/ld.lld" --reconfigure --bootstrapping off --skip-early-swift-driver --skip-early-swiftsyntax
-RUN LDFLAGS="-Xlinker -z -Xlinker nostart-stop-gc" CC=/usr/bin/clang CXX=/usr/bin/clang++ ./swift/utils/build-script --release-debuginfo --sccache --llvm-max-parallel-lto-link-jobs 1 --reconfigure --bootstrapping off --skip-early-swift-driver --skip-early-swiftsyntax
+RUN ./swift/utils/build-script --preset=buildbot_incremental_linux_base
+#RUN LDFLAGS="-Xlinker -z -Xlinker nostart-stop-gc" CC=/usr/bin/clang CXX=/usr/bin/clang++ ./swift/utils/build-script --release-debuginfo --sccache --llvm-max-parallel-lto-link-jobs 1 --reconfigure --bootstrapping off --skip-early-swift-driver --skip-early-swiftsyntax
 
 # SOME_PATH/swift-project/build/Ninja-RelWithDebInfoAssert/swift-macosx-arm64
 
