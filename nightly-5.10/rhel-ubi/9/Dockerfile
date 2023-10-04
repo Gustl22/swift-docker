@@ -1,17 +1,32 @@
-FROM centos:7
+FROM redhat/ubi9
+
 LABEL maintainer="Swift Infrastructure <swift-infrastructure@forums.swift.org>"
 LABEL description="Docker Container for the Swift programming language"
 
+RUN yum install -y  \
+  git               \
+  gcc-c++           \
+  libcurl-devel     \
+  libedit-devel     \
+  libuuid-devel     \
+  libxml2-devel     \
+  ncurses-devel     \
+  python3-devel     \
+  rsync             \
+  sqlite-devel      \
+  unzip             \
+  zip
+
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
-# gpg --keyid-format LONG -k FAF6989E1BC16FEA
-# pub   rsa4096/FAF6989E1BC16FEA 2019-11-07 [SC] [expires: 2021-11-06]
-#       8A7495662C3CD4AE18D95637FAF6989E1BC16FEA
-# uid                 [ unknown] Swift Automatic Signing Key #3 <swift-infrastructure@swift.org>
+# gpg --keyid-format LONG -k F167DF1ACF9CE069
+# pub   rsa4096/F167DF1ACF9CE069 2021-11-08 [SC] [expires: 2023-11-08]
+#       E813C892820A6FA13755B268F167DF1ACF9CE069
+# uid                 [ unknown] Swift Automatic Signing Key #4 <swift-infrastructure@forums.swift.org>
 ARG SWIFT_SIGNING_KEY=8A7495662C3CD4AE18D95637FAF6989E1BC16FEA
-ARG SWIFT_PLATFORM=centos
-ARG OS_MAJOR_VER=7
-ARG SWIFT_WEBROOT=https://download.swift.org/development
+ARG SWIFT_PLATFORM=ubi
+ARG OS_MAJOR_VER=9
+ARG SWIFT_WEBROOT=https://download.swift.org/swift-5.10-branch
 
 ENV SWIFT_SIGNING_KEY=$SWIFT_SIGNING_KEY \
     SWIFT_PLATFORM=$SWIFT_PLATFORM \
@@ -29,16 +44,17 @@ RUN set -e; \
     && echo $DOWNLOAD_DIR > .swift_tag \
     # - Download the GPG keys, Swift toolchain, and toolchain signature, and verify.
     && export GNUPGHOME="$(mktemp -d)" \
-    && curl -fsSL ${SWIFT_WEBROOT}/${DOWNLOAD_DIR}/${download} -o latest_toolchain.tar.gz \
+    && curl -fL ${SWIFT_WEBROOT}/${DOWNLOAD_DIR}/${download} -o latest_toolchain.tar.gz \
     ${SWIFT_WEBROOT}/${DOWNLOAD_DIR}/${download_signature} -o latest_toolchain.tar.gz.sig \
-    && curl -fSsL https://swift.org/keys/all-keys.asc | gpg --import -  \
+    && curl -fL https://swift.org/keys/all-keys.asc | gpg --import -  \
     && gpg --batch --verify latest_toolchain.tar.gz.sig latest_toolchain.tar.gz \
     # - Unpack the toolchain, set libs permissions, and clean up.
     && tar -xzf latest_toolchain.tar.gz --directory / --strip-components=1 \
-       ${DOWNLOAD_DIR}-${OS_VER}/usr/lib/swift/linux \
-       ${DOWNLOAD_DIR}-${OS_VER}/usr/libexec/swift/linux \
-    && chmod -R o+r /usr/lib/swift /usr/libexec/swift \
+    && chmod -R o+r /usr/lib/swift \
     && rm -rf "$GNUPGHOME" latest_toolchain.tar.gz.sig latest_toolchain.tar.gz
+
+# Print Installed Swift Version
+RUN swift --version
 
 RUN echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd' \
     >> /etc/bashrc; \

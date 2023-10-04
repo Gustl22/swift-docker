@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 LABEL maintainer="Swift Infrastructure <swift-infrastructure@forums.swift.org>"
 LABEL description="Docker Container for the Swift programming language"
 
@@ -17,9 +17,9 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
 # uid                 [ unknown] Swift Automatic Signing Key #3 <swift-infrastructure@swift.org>
 ARG SWIFT_SIGNING_KEY=8A7495662C3CD4AE18D95637FAF6989E1BC16FEA
 ARG SWIFT_PLATFORM=ubuntu
-ARG OS_MAJOR_VER=18
+ARG OS_MAJOR_VER=22
 ARG OS_MIN_VER=04
-ARG SWIFT_WEBROOT=https://download.swift.org/swift-5.9-branch
+ARG SWIFT_WEBROOT=https://download.swift.org/swift-5.10-branch
 
 ENV SWIFT_SIGNING_KEY=$SWIFT_SIGNING_KEY \
     SWIFT_PLATFORM=$SWIFT_PLATFORM \
