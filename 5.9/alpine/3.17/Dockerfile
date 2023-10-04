@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
 ARG GLIBC_VERSION=2.34-r0
-ARG SWIFT_VERSION=swift-5.9-DEVELOPMENT-SNAPSHOT-2023-08-23-a
+ARG SWIFT_VERSION=swift-5.9-DEVELOPMENT-SNAPSHOT-2023-10-02-a
 
 ENV GLIBC_VERSION=$GLIBC_VERSION
 ENV SWIFT_VERSION=$SWIFT_VERSION
