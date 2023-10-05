@@ -15,9 +15,19 @@ RUN apk add --no-cache \
     libgcc \
     libstdc++ \
     libuuid \
+    lld \
     musl-dev \
     ninja \
     sccache
+
+# Also reevaluate with https://github.com/MaxDesiatov/swift-alpine/issues/1#issuecomment-1332100604
+RUN apk add --no-cache \
+    libstdc++-dev \
+    make \
+    clang \
+    llvm10-libs \
+    llvm10 \
+    libc-dev
 
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
