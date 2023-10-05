@@ -4,6 +4,7 @@ on:
   release:
     types: [ published ]
 
+# Also see: https://github.com/MaxDesiatov/swift-alpine/blob/main/.github/workflows/main.yml
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
