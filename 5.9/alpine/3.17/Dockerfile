@@ -40,7 +40,7 @@ RUN cd swift && utils/update-checkout --clone
 
 # install on linux:
 #RUN LDFLAGS="-Xlinker -z -Xlinker nostart-stop-gc" CC=/usr/bin/clang CXX=/usr/bin/clang++ ./swift/utils/build-script --release-debuginfo --sccache --llvm-max-parallel-lto-link-jobs 1 --llvm-cmake-options='-DLLVM_ENABLE_LLD=' --extra-cmake-options="-DSWIFT_USE_LINKER= -DLLVM_USE_LINKER=/home/ksmiley/.bin/ld.lld" --reconfigure --bootstrapping off --skip-early-swift-driver --skip-early-swiftsyntax
-RUN ./swift/utils/build-script --preset=buildbot_incremental_linux_base --no-assertions
+RUN ./swift/utils/build-script --preset=buildbot_incremental_linux_base
 #RUN LDFLAGS="-Xlinker -z -Xlinker nostart-stop-gc" CC=/usr/bin/clang CXX=/usr/bin/clang++ ./swift/utils/build-script --release-debuginfo --sccache --llvm-max-parallel-lto-link-jobs 1 --reconfigure --bootstrapping off --skip-early-swift-driver --skip-early-swiftsyntax
 
 # SOME_PATH/swift-project/build/Ninja-RelWithDebInfoAssert/swift-macosx-arm64
