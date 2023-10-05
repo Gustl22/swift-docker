@@ -10,7 +10,9 @@ RUN apk add --no-cache \
     cmake \
     cmark \
     gcc \
+    g++ \
     git \
+    libgcc \
     libstdc++ \
     libuuid \
     musl-dev \
@@ -19,17 +21,17 @@ RUN apk add --no-cache \
 
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
-ARG GLIBC_VERSION=2.34-r0
+#ARG GLIBC_VERSION=2.34-r0
 ARG SWIFT_VERSION=swift-5.9-DEVELOPMENT-SNAPSHOT-2023-10-02-a
 
-ENV GLIBC_VERSION=$GLIBC_VERSION
+#ENV GLIBC_VERSION=$GLIBC_VERSION
 ENV SWIFT_VERSION=$SWIFT_VERSION
 
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub &&\
-    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-$GLIBC_VERSION.apk &&\
-    apk add --no-cache --force-overwrite glibc-$GLIBC_VERSION.apk && rm glibc-$GLIBC_VERSION.apk
-RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-bin-$GLIBC_VERSION.apk &&\
-    apk --no-cache --force-overwrite add glibc-bin-$GLIBC_VERSION.apk && rm glibc-bin-$GLIBC_VERSION.apk
+#RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub &&\
+#    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-$GLIBC_VERSION.apk &&\
+#    apk add --no-cache --force-overwrite glibc-$GLIBC_VERSION.apk && rm glibc-$GLIBC_VERSION.apk
+#RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-bin-$GLIBC_VERSION.apk &&\
+#    apk --no-cache --force-overwrite add glibc-bin-$GLIBC_VERSION.apk && rm glibc-bin-$GLIBC_VERSION.apk
 
 RUN git clone https://github.com/Gustl22/swift.git swift -b "maxd/alpine-build-runtime"
 RUN cd swift && utils/update-checkout --clone
