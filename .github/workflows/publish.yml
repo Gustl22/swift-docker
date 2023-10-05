@@ -11,15 +11,29 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-      - name: Free Space
-        run: |
-          df -h
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          df -h
+#      - name: Free Space
+#        run: |
+#          df -h
+#          sudo rm -rf /usr/local/lib/android
+#          sudo rm -rf /usr/share/dotnet
+#          sudo rm -rf /opt/ghc
+#          sudo rm -rf "/usr/local/share/boost"
+#          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+#          df -h
+
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: false
+
+      - name: Print Free Space (before)
+        run: df -h
 
       #- name: Set up Docker Buildx
       #  uses: docker/setup-buildx-action@v3
@@ -44,3 +58,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Print Free Space (after)
+        if: failure()
+        run: df -h
