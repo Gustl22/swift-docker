@@ -24,6 +24,7 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
     libstdc++-dev \
     make \
+    llvm \
     libc-dev
 
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
