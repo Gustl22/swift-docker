@@ -24,7 +24,7 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
     libstdc++-dev \
     make \
-    clang \
+    clang15 \
     llvm15-libs \
     llvm15 \
     libc-dev
