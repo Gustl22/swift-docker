@@ -28,6 +28,12 @@ RUN apk add --no-cache \
     llvm \
     libc-dev
 
+# WIP to test
+RUN set -eux; \
+    ldconfig /usr/local/lib
+
+RUN rm /usr/bin/ld && ln -s /usr/bin/lld /usr/bin/ld
+
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
 #ARG GLIBC_VERSION=2.34-r0
