@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     libuuid \
     lld \
     musl-dev \
+    musl-utils \
     ninja \
     sccache
 
