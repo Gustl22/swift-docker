@@ -54,8 +54,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./5.9/alpine/3.17
-          file: ./5.9/alpine/3.17/Dockerfile
+          context: ./nightly-5.10/alpine/3.17
+          file: ./nightly-5.10/alpine/3.17/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
