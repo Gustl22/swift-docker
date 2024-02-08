@@ -29,10 +29,10 @@ RUN apk add --no-cache \
     libc-dev
 
 # WIP to test
-RUN set -eux; \
-    ldconfig /usr/local/lib
-
-RUN rm /usr/bin/ld && ln -s /usr/bin/lld /usr/bin/ld
+#RUN set -eux; \
+#    ldconfig /usr/local/lib
+#
+#RUN rm /usr/bin/ld && ln -s /usr/bin/lld /usr/bin/ld
 
 # Everything up to here should cache nicely between Swift versions, assuming dev dependencies change little
 
